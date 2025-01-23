@@ -59,8 +59,6 @@ export const ExchangeBlock = () => {
 
   useEffect(() => {
     console.log("Este es el valor de location", location);
-
-    setCountry;
   }, [location]);
 
   useEffect(() => {
