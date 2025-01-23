@@ -33,7 +33,7 @@ export const ExchangeBlock = () => {
     bank: "",
   });
   const [isOpen, setIsOpen] = useState(false);
-  const [country, setCountry] = useState<SelectMenuOption["value"]>();
+  const [country, setCountry] = useState<SelectMenuOption["value"]>("CO");
 
   const [sendValue, setSendValue] = useState("");
   const [receiveValue, setReceiveValue] = useState("");
@@ -282,71 +282,52 @@ export const ExchangeBlock = () => {
   };
 
   useEffect(() => {
-    fetch("/api/get-ip")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+    const fetchIPAndSetCountry = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch("/api/get-ip");
+        if (!response.ok) {
+          throw new Error("Error al cargar la ubicación");
+        }
+        const data = await response.json();
         setLocation(data.country);
         setCountry(data.country);
-      })
-      .finally(() => {
-        if (country !== "CO") {
-          setIsNequi(false);
-          setIsDaviplata(false);
-          setIsNequiOrDaviplata(false);
-        } else {
-          setIsNequi(true);
-          setIsDaviplata(false);
-          setIsNequiOrDaviplata(true);
-        }
-
-        fetchConfiguration();
-
-        const body = { amount: sendValue, inverted: inverted };
-
-        fetchConvert(body).then((response) => {
-          if (response) {
-            const receiveValue = parseFloat(response.converted).toLocaleString(
-              "en-US"
-            );
-
-            console.log(response.converted);
-            console.log(receiveValue);
-            setReceiveValue(receiveValue);
-          }
-        });
-      })
-      .catch((error) => {
+        setIsLoading(false);
+      } catch (error) {
         console.error("Error al cargar la ubicación:", error);
-      });
+        setIsLoading(false);
+      }
+    };
+
+    fetchIPAndSetCountry();
   }, []);
 
   useEffect(() => {
-    if (country !== "CO") {
-      setIsNequi(false);
-      setIsDaviplata(false);
-      setIsNequiOrDaviplata(false);
-    } else {
-      setIsNequi(true);
-      setIsDaviplata(false);
-      setIsNequiOrDaviplata(true);
-    }
-
-    fetchConfiguration();
-
-    const body = { amount: sendValue, inverted: inverted };
-
-    fetchConvert(body).then((response) => {
-      if (response) {
-        const receiveValue = parseFloat(response.converted).toLocaleString(
-          "en-US"
-        );
-
-        console.log(response.converted);
-        console.log(receiveValue);
-        setReceiveValue(receiveValue);
+    if (country) {
+      if (country === "CO") {
+        setIsNequi(true);
+        setIsDaviplata(false);
+        setIsNequiOrDaviplata(true);
+      } else {
+        setIsNequi(false);
+        setIsDaviplata(false);
+        setIsNequiOrDaviplata(false);
       }
-    });
+
+      fetchConfiguration().then((configuration) => {
+        setConfiguration(configuration);
+
+        const body = { amount: parseFloat(sendValue), inverted: inverted };
+        fetchConvert(body).then((response) => {
+          if (response && response.converted) {
+            const receiveValue = parseFloat(response.converted).toLocaleString(
+              "en-US"
+            );
+            setReceiveValue(receiveValue);
+          }
+        });
+      });
+    }
   }, [country]);
 
   useEffect(() => {
