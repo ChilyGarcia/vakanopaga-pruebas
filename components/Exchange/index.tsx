@@ -61,7 +61,7 @@ export const ExchangeBlock = () => {
     fetch("/api/get-ip")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log(data.country);
         setLocation(data);
       })
       .catch((error) => {
