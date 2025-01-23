@@ -317,7 +317,8 @@ export const ExchangeBlock = () => {
       fetchConfiguration().then((configuration) => {
         setConfiguration(configuration);
 
-        const body = { amount: parseFloat(sendValue), inverted: inverted };
+        const body = { amount: parseFloat("3"), inverted: 1 };
+
         fetchConvert(body).then((response) => {
           if (response && response.converted) {
             const receiveValue = parseFloat(response.converted).toLocaleString(
