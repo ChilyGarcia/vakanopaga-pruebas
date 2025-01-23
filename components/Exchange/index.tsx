@@ -59,6 +59,8 @@ export const ExchangeBlock = () => {
 
   useEffect(() => {
     console.log("Este es el valor de location", location);
+
+    setCountry;
   }, [location]);
 
   useEffect(() => {
@@ -67,6 +69,7 @@ export const ExchangeBlock = () => {
       .then((data) => {
         console.log(data);
         setLocation(data.country);
+        setCountry(data.country);
       })
       .catch((error) => {
         console.error("Error al cargar la ubicación:", error);
