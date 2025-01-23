@@ -58,6 +58,10 @@ export const ExchangeBlock = () => {
   const [location, setLocation] = useState(null);
 
   useEffect(() => {
+    console.log("Este es el valor de location", location);
+  }, [location]);
+
+  useEffect(() => {
     fetch("/api/get-ip")
       .then((response) => response.json())
       .then((data) => {
