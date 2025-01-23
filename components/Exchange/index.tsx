@@ -33,7 +33,7 @@ export const ExchangeBlock = () => {
     bank: "",
   });
   const [isOpen, setIsOpen] = useState(false);
-  const [country, setCountry] = useState<SelectMenuOption["value"]>("CO");
+  const [country, setCountry] = useState<SelectMenuOption["value"]>();
 
   const [sendValue, setSendValue] = useState("");
   const [receiveValue, setReceiveValue] = useState("");
@@ -56,24 +56,6 @@ export const ExchangeBlock = () => {
   const [showWarning, setShowWarning] = useState(false);
   const [isDoneFetch, setIsDoneFetch] = useState(false);
   const [location, setLocation] = useState();
-
-  
-  useEffect(() => {
-    console.log("Este es el valor de location", location);
-  }, [location]);
-
-  useEffect(() => {
-    fetch("/api/get-ip")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setLocation(data.country);
-        setCountry(data.country);
-      })
-      .catch((error) => {
-        console.error("Error al cargar la ubicación:", error);
-      });
-  }, []);
 
   const initialBody: IOrder = {
     amount: 0,
@@ -98,8 +80,6 @@ export const ExchangeBlock = () => {
     bank_account: "",
     bank: "",
   };
-
-  useEffect(() => {}, []);
 
   const warningMessage = (
     <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
@@ -300,6 +280,19 @@ export const ExchangeBlock = () => {
       setStep(1);
     }
   };
+
+  useEffect(() => {
+    fetch("/api/get-ip")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setLocation(data.country);
+        setCountry(data.country);
+      })
+      .catch((error) => {
+        console.error("Error al cargar la ubicación:", error);
+      });
+  }, []);
 
   useEffect(() => {
     console.log(
