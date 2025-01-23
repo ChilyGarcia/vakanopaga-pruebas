@@ -289,17 +289,39 @@ export const ExchangeBlock = () => {
         setLocation(data.country);
         setCountry(data.country);
       })
+      .finally(() => {
+        if (country !== "CO") {
+          setIsNequi(false);
+          setIsDaviplata(false);
+          setIsNequiOrDaviplata(false);
+        } else {
+          setIsNequi(true);
+          setIsDaviplata(false);
+          setIsNequiOrDaviplata(true);
+        }
+
+        fetchConfiguration();
+
+        const body = { amount: sendValue, inverted: inverted };
+
+        fetchConvert(body).then((response) => {
+          if (response) {
+            const receiveValue = parseFloat(response.converted).toLocaleString(
+              "en-US"
+            );
+
+            console.log(response.converted);
+            console.log(receiveValue);
+            setReceiveValue(receiveValue);
+          }
+        });
+      })
       .catch((error) => {
         console.error("Error al cargar la ubicación:", error);
       });
   }, []);
 
   useEffect(() => {
-    console.log(
-      "Se selecciono un pais, por lo tanto los endpoints son para",
-      country
-    );
-
     if (country !== "CO") {
       setIsNequi(false);
       setIsDaviplata(false);
