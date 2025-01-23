@@ -22,7 +22,10 @@ export async function GET(req: NextRequest) {
     const data = await response.json();
     console.log(data);
 
-    return NextResponse.json({ ip, data });
+    // Extraer el valor de country
+    const country = data.country;
+
+    return NextResponse.json({ country });
   } catch (error) {
     console.error("Error al obtener la IP:", error);
 
