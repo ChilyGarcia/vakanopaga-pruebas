@@ -3,10 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const ip = (req.headers.get("x-forwarded-for") ?? "127.0.0.1").split(",")[0];
 
+  const ip_ecu = "102.177.160.0";
+
   console.log(ip);
 
   try {
-    const response = await fetch(`https://ip.wld.lol/${ip}`, {
+    const response = await fetch(`https://ip.wld.lol/${ip_ecu}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
