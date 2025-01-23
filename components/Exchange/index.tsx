@@ -324,42 +324,57 @@ export const ExchangeBlock = () => {
             const receiveValue = parseFloat(response.converted).toLocaleString(
               "en-US"
             );
+            setSendValue("3");
             setReceiveValue(receiveValue);
+
+            if (
+              parseFloat("3") >= 3 &&
+              parseFloat(receiveValue.replace(/,/g, "")) >= 3
+            ) {
+              setIsNextDisabled(false);
+            } else {
+              setIsNextDisabled(true);
+            }
+          } else {
+            console.error(
+              "La respuesta no tiene el formato esperado",
+              response
+            );
           }
         });
       });
     }
   }, [country]);
 
-  // useEffect(() => {
-  //   const body = { amount: parseFloat("3"), inverted: 1 };
+  useEffect(() => {
+    const body = { amount: parseFloat("3"), inverted: 1 };
 
-  //   setIsNequi(true);
-  //   setIsNequiOrDaviplata(true);
+    setIsNequi(true);
+    setIsNequiOrDaviplata(true);
 
-  //   fetchConfiguration();
+    fetchConfiguration();
 
-  //   fetchConvert(body).then((response) => {
-  //     if (response && response.converted) {
-  //       const receiveValue = parseFloat(response.converted).toLocaleString(
-  //         "en-US"
-  //       );
-  //       setSendValue("3");
-  //       setReceiveValue(receiveValue);
+    fetchConvert(body).then((response) => {
+      if (response && response.converted) {
+        const receiveValue = parseFloat(response.converted).toLocaleString(
+          "en-US"
+        );
+        setSendValue("3");
+        setReceiveValue(receiveValue);
 
-  //       if (
-  //         parseFloat("3") >= 3 &&
-  //         parseFloat(receiveValue.replace(/,/g, "")) >= 3
-  //       ) {
-  //         setIsNextDisabled(false);
-  //       } else {
-  //         setIsNextDisabled(true);
-  //       }
-  //     } else {
-  //       console.error("La respuesta no tiene el formato esperado", response);
-  //     }
-  //   });
-  // }, []);
+        if (
+          parseFloat("3") >= 3 &&
+          parseFloat(receiveValue.replace(/,/g, "")) >= 3
+        ) {
+          setIsNextDisabled(false);
+        } else {
+          setIsNextDisabled(true);
+        }
+      } else {
+        console.error("La respuesta no tiene el formato esperado", response);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     validateNextButton();
