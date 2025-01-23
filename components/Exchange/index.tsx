@@ -62,7 +62,7 @@ export const ExchangeBlock = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setLocation(data);
+        setLocation(data.country);
       })
       .catch((error) => {
         console.error("Error al cargar la ubicación:", error);
