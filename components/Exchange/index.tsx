@@ -55,7 +55,7 @@ export const ExchangeBlock = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [isDoneFetch, setIsDoneFetch] = useState(false);
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState();
 
   useEffect(() => {
     console.log("Este es el valor de location", location);
