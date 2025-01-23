@@ -57,6 +57,7 @@ export const ExchangeBlock = () => {
   const [isDoneFetch, setIsDoneFetch] = useState(false);
   const [location, setLocation] = useState();
 
+  
   useEffect(() => {
     console.log("Este es el valor de location", location);
   }, [location]);
