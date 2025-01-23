@@ -33,7 +33,7 @@ export const ExchangeBlock = () => {
     bank: "",
   });
   const [isOpen, setIsOpen] = useState(false);
-  const [country, setCountry] = useState<SelectMenuOption["value"]>("CO");
+  const [country, setCountry] = useState<SelectMenuOption["value"]>();
 
   const [sendValue, setSendValue] = useState("");
   const [receiveValue, setReceiveValue] = useState("");
